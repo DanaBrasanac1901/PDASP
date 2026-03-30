@@ -18,7 +18,7 @@ services:
       - "17054:17054"
     command: sh -c 'fabric-ca-server start -b admin:adminpw -d'
     volumes:
-      - ../organizations/fabric-ca/org1:/etc/hyperledger/fabric-ca-server
+      - ../organizations/fabric-ca/org1:/etc/hyperledger/fabric-ca-server:z
     container_name: ca_org1
     networks:
       - fabric_network
@@ -37,7 +37,7 @@ services:
       - "18054:18054"
     command: sh -c 'fabric-ca-server start -b admin:adminpw -d'
     volumes:
-      - ../organizations/fabric-ca/org2:/etc/hyperledger/fabric-ca-server
+      - ../organizations/fabric-ca/org2:/etc/hyperledger/fabric-ca-server:z
     container_name: ca_org2
     networks:
       - fabric_network
@@ -56,7 +56,7 @@ services:
       - "19054:19054"
     command: sh -c 'fabric-ca-server start -b admin:adminpw -d'
     volumes:
-      - ../organizations/fabric-ca/org3:/etc/hyperledger/fabric-ca-server
+      - ../organizations/fabric-ca/org3:/etc/hyperledger/fabric-ca-server:z
     container_name: ca_org3
     networks:
       - fabric_network
@@ -75,7 +75,7 @@ services:
       - "20054:20054"
     command: sh -c 'fabric-ca-server start -b admin:adminpw -d'
     volumes:
-      - ../organizations/fabric-ca/ordererOrg1:/etc/hyperledger/fabric-ca-server
+      - ../organizations/fabric-ca/ordererOrg1:/etc/hyperledger/fabric-ca-server:z
     container_name: ca_orderer1
     networks:
       - fabric_network
@@ -94,7 +94,7 @@ services:
       - "21054:21054"
     command: sh -c 'fabric-ca-server start -b admin:adminpw -d'
     volumes:
-      - ../organizations/fabric-ca/ordererOrg2:/etc/hyperledger/fabric-ca-server
+      - ../organizations/fabric-ca/ordererOrg2:/etc/hyperledger/fabric-ca-server:z
     container_name: ca_orderer2
     networks:
       - fabric_network

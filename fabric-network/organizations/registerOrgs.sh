@@ -424,28 +424,28 @@ function createOrderer1() {
 
   # Copy orderer org's CA cert to orderer org's /tlsca directory (for use by clients)
   mkdir -p "${PWD}/organizations/ordererOrganizations/orderer1.example.com/tlsca"
-  cp "${PWD}/organizations/fabric-ca/ordererOrg1/ca-cert.pem" "${PWD}/organizations/ordererOrganizations/example.com/tlsca/tlsca.example.com-cert.pem"
+  cp "${PWD}/organizations/fabric-ca/ordererOrg1/ca-cert.pem" "${PWD}/organizations/ordererOrganizations/orderer1.example.com/tlsca/tlsca.example.com-cert.pem"
 
 # Loop through each orderer (orderer, orderer2, orderer3, orderer4) to register and generate artifacts
   for ORDERER in orderer orderer2 orderer3 orderer4; do
     infoln "Registering ${ORDERER}"
     set -x
-    fabric-ca-client register --caname ca-orderer --id.name ${ORDERER} --id.secret ${ORDERER}pw --id.type orderer --tls.certfiles "${PWD}/organizations/fabric-ca/ordererOrg1/ca-cert.pem"
+    fabric-ca-client register --caname ca-orderer1 --id.name ${ORDERER} --id.secret ${ORDERER}pw --id.type orderer --tls.certfiles "${PWD}/organizations/fabric-ca/ordererOrg1/ca-cert.pem"
     { set +x; } 2>/dev/null
 
     infoln "Generating the ${ORDERER} MSP"
     set -x
-    fabric-ca-client enroll -u https://${ORDERER}:${ORDERER}pw@localhost:10054 --caname ca-orderer -M "${PWD}/organizations/ordererOrganizations/orderer1.example.com/orderers/${ORDERER}.example.com/msp" --tls.certfiles "${PWD}/organizations/fabric-ca/ordererOrg1/ca-cert.pem"
+    fabric-ca-client enroll -u https://${ORDERER}:${ORDERER}pw@localhost:10054 --caname ca-orderer1 -M "${PWD}/organizations/ordererOrganizations/orderer1.example.com/orderers/${ORDERER}.example.com/msp" --tls.certfiles "${PWD}/organizations/fabric-ca/ordererOrg1/ca-cert.pem"
     { set +x; } 2>/dev/null
 
-    cp "${PWD}/organizations/ordererOrganizations/orderer1.example.com/msp/config.yaml" "${PWD}/organizations/ordererOrganizations/example.com/orderers/${ORDERER}.example.com/msp/config.yaml"
+    cp "${PWD}/organizations/ordererOrganizations/orderer1.example.com/msp/config.yaml" "${PWD}/organizations/ordererOrganizations/orderer1.example.com/orderers/${ORDERER}.example.com/msp/config.yaml"
 
     # Workaround: Rename the signcert file to ensure consistency with Cryptogen generated artifacts
     mv "${PWD}/organizations/ordererOrganizations/orderer1.example.com/orderers/${ORDERER}.example.com/msp/signcerts/cert.pem" "${PWD}/organizations/ordererOrganizations/orderer1.example.com/orderers/${ORDERER}.example.com/msp/signcerts/${ORDERER}.example.com-cert.pem"
 
     infoln "Generating the ${ORDERER} TLS certificates, use --csr.hosts to specify Subject Alternative Names"
     set -x
-    fabric-ca-client enroll -u https://${ORDERER}:${ORDERER}pw@localhost:10054 --caname ca-orderer -M "${PWD}/organizations/ordererOrganizations/orderer1.example.com/orderers/${ORDERER}.example.com/tls" --enrollment.profile tls --csr.hosts ${ORDERER}.example.com --csr.hosts localhost --tls.certfiles "${PWD}/organizations/fabric-ca/ordererOrg1/ca-cert.pem"
+    fabric-ca-client enroll -u https://${ORDERER}:${ORDERER}pw@localhost:10054 --caname ca-orderer1 -M "${PWD}/organizations/ordererOrganizations/orderer1.example.com/orderers/${ORDERER}.example.com/tls" --enrollment.profile tls --csr.hosts ${ORDERER}.example.com --csr.hosts localhost --tls.certfiles "${PWD}/organizations/fabric-ca/ordererOrg1/ca-cert.pem"
     { set +x; } 2>/dev/null
 
     # Copy the tls CA cert, server cert, server keystore to well known file names in the orderer's tls directory that are referenced by orderer startup config
@@ -511,12 +511,12 @@ function createOrderer2() {
   for ORDERER in orderer orderer2 orderer3 orderer4; do
     infoln "Registering ${ORDERER}"
     set -x
-    fabric-ca-client register --caname ca-orderer --id.name ${ORDERER} --id.secret ${ORDERER}pw --id.type orderer --tls.certfiles "${PWD}/organizations/fabric-ca/ordererOrg2/ca-cert.pem"
+    fabric-ca-client register --caname ca-orderer2 --id.name ${ORDERER} --id.secret ${ORDERER}pw --id.type orderer --tls.certfiles "${PWD}/organizations/fabric-ca/ordererOrg2/ca-cert.pem"
     { set +x; } 2>/dev/null
 
     infoln "Generating the ${ORDERER} MSP"
     set -x
-    fabric-ca-client enroll -u https://${ORDERER}:${ORDERER}pw@localhost:11054 --caname ca-orderer -M "${PWD}/organizations/ordererOrganizations/orderer2.example.com/orderers/${ORDERER}.example.com/msp" --tls.certfiles "${PWD}/organizations/fabric-ca/ordererOrg2/ca-cert.pem"
+    fabric-ca-client enroll -u https://${ORDERER}:${ORDERER}pw@localhost:11054 --caname ca-orderer2 -M "${PWD}/organizations/ordererOrganizations/orderer2.example.com/orderers/${ORDERER}.example.com/msp" --tls.certfiles "${PWD}/organizations/fabric-ca/ordererOrg2/ca-cert.pem"
     { set +x; } 2>/dev/null
 
     cp "${PWD}/organizations/ordererOrganizations/orderer2.example.com/msp/config.yaml" "${PWD}/organizations/ordererOrganizations/orderer2.example.com/orderers/${ORDERER}.example.com/msp/config.yaml"
@@ -526,7 +526,7 @@ function createOrderer2() {
 
     infoln "Generating the ${ORDERER} TLS certificates, use --csr.hosts to specify Subject Alternative Names"
     set -x
-    fabric-ca-client enroll -u https://${ORDERER}:${ORDERER}pw@localhost:11054 --caname ca-orderer -M "${PWD}/organizations/ordererOrganizations/orderer2.example.com/orderers/${ORDERER}.example.com/tls" --enrollment.profile tls --csr.hosts ${ORDERER}.example.com --csr.hosts localhost --tls.certfiles "${PWD}/organizations/fabric-ca/ordererOrg2/ca-cert.pem"
+    fabric-ca-client enroll -u https://${ORDERER}:${ORDERER}pw@localhost:11054 --caname ca-orderer2 -M "${PWD}/organizations/ordererOrganizations/orderer2.example.com/orderers/${ORDERER}.example.com/tls" --enrollment.profile tls --csr.hosts ${ORDERER}.example.com --csr.hosts localhost --tls.certfiles "${PWD}/organizations/fabric-ca/ordererOrg2/ca-cert.pem"
     { set +x; } 2>/dev/null
 
     # Copy the tls CA cert, server cert, server keystore to well known file names in the orderer's tls directory that are referenced by orderer startup config
@@ -552,5 +552,3 @@ function createOrderer2() {
 
   cp "${PWD}/organizations/ordererOrganizations/orderer2.example.com/msp/config.yaml" "${PWD}/organizations/ordererOrganizations/orderer2.example.com/users/Admin@example.com/msp/config.yaml"
 }
-
-

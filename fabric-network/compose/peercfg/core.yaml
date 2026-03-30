@@ -499,22 +499,22 @@ vm:
     # https://localhost:2376
     # If you utilize external chaincode builders and don't need the default Docker chaincode builder,
     # the endpoint should be unconfigured so that the peer's Docker health checker doesn't get registered.
-   endpoint: unix:///var/run/docker.sock
+    endpoint: unix:///var/run/docker.sock
 
     # settings for docker vms
-   docker:
-       tls:
-           enabled: false
-           ca:
-               file: docker/ca.crt
-           cert:
-               file: docker/tls.crt
-           key:
-               file: docker/tls.key
+    docker:
+        tls:
+            enabled: false
+            ca:
+                file: docker/ca.crt
+            cert:
+                file: docker/tls.crt
+            key:
+                file: docker/tls.key
 
         # Enables/disables the standard out/err from chaincode containers for
         # debugging purposes
-       attachStdout: false
+        attachStdout: false
 
         # Parameters on creating docker container.
         # Container may be efficiently created using ipam & dns-server for cluster
@@ -527,16 +527,16 @@ vm:
         # (Config) for Docker. For more info,
         # https://docs.docker.com/engine/admin/logging/overview/
         # Note: Set LogConfig using Environment Variables is not supported.
-       hostConfig:
-           NetworkMode: host
-           Dns:
+        hostConfig:
+            NetworkMode: host
+            Dns:
               # - 192.168.0.1
-           LogConfig:
-               Type: json-file
-               Config:
-                   max-size: "50m"
-                   max-file: "5"
-           Memory: 2147483648
+            LogConfig:
+                Type: json-file
+                Config:
+                    max-size: "50m"
+                    max-file: "5"
+            Memory: 2147483648
 
 ###############################################################################
 #

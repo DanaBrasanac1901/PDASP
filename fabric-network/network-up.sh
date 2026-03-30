@@ -2,11 +2,9 @@
 
 ROOTDIR=$(cd "$(dirname "$0")" && pwd)
 export PATH=${ROOTDIR}/../bin:${PWD}/../bin:$PATH
-echo ${PATH}
 export FABRIC_CFG_PATH=${PWD}/configtx
 export VERBOSE=false
 NONWORKING_VERSIONS="^1\.0\. ^1\.1\. ^1\.2\. ^1\.3\. ^1\.4\."
-
 SOCK="${DOCKER_HOST:-/var/run/docker.sock}"
 DOCKER_SOCK="${SOCK##unix://}"
 
@@ -61,7 +59,7 @@ function checkPrereqs() {
       exit 1
     fi
     CA_LOCAL_VERSION=$(fabric-ca-client version | sed -ne 's/ Version: //p')
-    CA_DOCKER_IMAGE_VERSION=$(docker} run --rm hyperledger/fabric-ca:latest fabric-ca-client version | sed -ne 's/ Version: //p' | head -1)
+    CA_DOCKER_IMAGE_VERSION=$(docker run --rm hyperledger/fabric-ca:latest fabric-ca-client version | sed -ne 's/ Version: //p' | head -1)
     infoln "CA_LOCAL_VERSION=$CA_LOCAL_VERSION"
     infoln "CA_DOCKER_IMAGE_VERSION=$CA_DOCKER_IMAGE_VERSION"
 
@@ -179,7 +177,7 @@ function networkUp() {
     createOrgs
   fi
 
-  DOCKER_SOCK="${DOCKER_SOCK}" docker-compose compose/compose-network.yaml up -d 2>&1
+  DOCKER_SOCK="${DOCKER_SOCK}" docker-compose -f compose/compose-network.yaml up -d 2>&1
 
   docker ps -a
   if [ $? -ne 0 ]; then
