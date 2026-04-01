@@ -4,3 +4,4 @@ Projekat iz predmeta "Paralelni i distribuirani algoritmi i strukture podataka" 
 
 - Komanda za pokretanje fabric mreže (morate se nalaziti unutar direktorijuma fabric-network) - bash network-up.sh
 - Komanda za gašenje fabric mreže (morate se nalaziti unutar direktorijuma fabric-network) - bash network-down.sh
+- Komanda za pokretanje konzolne aplikacije (morate se nalaziti unutar direktorijuma sdk) - go run main.go
