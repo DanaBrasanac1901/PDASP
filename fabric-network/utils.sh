@@ -76,15 +76,15 @@ function setOrgPeerEnv() {
 # Fetches the current channel config block, decodes it, and extracts the config to JSON
 function fetchChannelConfig() {
   local ORG=$1
-  local CHANNEL=$2
+  local CHANNEL_NAME=$2
   local OUTPUT=$3
 
   setOrgPeerEnv $ORG
 
-  infoln "Fetching the most recent configuration block for channel ${CHANNEL}"
+  infoln "Fetching the most recent configuration block for channel ${CHANNEL_NAME}"
 
   set -x
-  peer channel fetch config ./channel-artifacts/config_block.pb -o localhost:${ORDERER_LISTENER_PORT} --ordererTLSHostnameOverride orderer.example.com -c ${CHANNEL} --tls --cafile "${ORDERER_CA}"
+  peer channel fetch config ./channel-artifacts/config_block.pb -o localhost:${ORDERER_LISTENER_PORT} --ordererTLSHostnameOverride orderer.example.com -c ${CHANNEL_NAME} --tls --cafile "${ORDERER_CA}"
   { set +x; } 2>/dev/null
 
   infoln "Decoding config block to JSON and isolating config to ${OUTPUT}"

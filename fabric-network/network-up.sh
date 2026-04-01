@@ -414,7 +414,7 @@ fi
 infoln "Setting anchor peer for org1..."
 export CORE_PEER_LOCALMSPID=Org1MSP
 infoln "Fetching channel config for channel $CHANNEL_NAME"
-fetchChannelConfig 1 $CHANNEL_NAME ./channel-artifacts/${CORE_PEER_LOCALMSPID}config.json
+fetchChannelConfig 1 ${CHANNEL_NAME} ./channel-artifacts/${CORE_PEER_LOCALMSPID}config.json
 infoln "Generating anchor peer update transaction for Org1 on channel $CHANNEL_NAME"
 HOST="peer0.org1.example.com"
 PORT=7051
@@ -469,7 +469,7 @@ if [ ${CHANNEL_ID} -eq 1 ]; then
   infoln "Setting anchor peer for org3..."
   export CORE_PEER_LOCALMSPID=Org3MSP
   infoln "Fetching channel config for channel $CHANNEL_NAME"
-  fetchChannelConfig 3 $CHANNEL_NAME ./channel-artifacts/${CORE_PEER_LOCALMSPID}config.json
+  fetchChannelConfig 3 ${CHANNEL_NAME} ./channel-artifacts/${CORE_PEER_LOCALMSPID}config.json
   infoln "Generating anchor peer update transaction for Org3 on channel $CHANNEL_NAME"
   HOST="peer0.org3.example.com"
   PORT=13051
@@ -500,3 +500,4 @@ successln "Channel '$CHANNEL_NAME' joined"
 networkUp
 createChannel 1
 createChannel 2
+./deploy-cc.sh
