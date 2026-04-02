@@ -2,8 +2,11 @@
 # deployCC.sh — deploys chaincode on channel1 (Org1+Org2+Org3) and channel2 (Org1+Org2)
 set -e
 
-export PATH=${PWD}/../bin:$PATH
-export FABRIC_CFG_PATH=${PWD}/../config
+#!/usr/bin/env bash
+ROOTDIR=$(cd "$(dirname "$0")" && pwd)
+export PATH=${ROOTDIR}/bin:$PATH
+export FABRIC_CFG_PATH=${ROOTDIR}/config
+export CORE_PEER_TLS_ENABLED=true
 
 CC_NAME=cc
 CC_VERSION=1.0
@@ -84,7 +87,9 @@ for approveOrg in 1 2 3; do
     --channelID channel1 --name ${CC_NAME} \
     --version ${CC_VERSION} --sequence ${CC_SEQUENCE} \
     --package-id ${CC_PKG_ID} \
-    --signature-policy "${POLICY_CH1}"
+    --signature-policy "${POLICY_CH1}" \
+    --waitForEventTimeout 120s
+  sleep 3
 done
 
 echo "--- Checking commit readiness on channel1 ---"
@@ -108,7 +113,6 @@ peer lifecycle chaincode commit \
 
 echo "Chaincode committed on channel1."
 
-
 for approveOrg in 1 2; do
   echo "--- Approving for Org${approveOrg} on channel2 ---"
   setOrg${approveOrg}
@@ -118,7 +122,9 @@ for approveOrg in 1 2; do
     --channelID channel2 --name ${CC_NAME} \
     --version ${CC_VERSION} --sequence ${CC_SEQUENCE} \
     --package-id ${CC_PKG_ID} \
-    --signature-policy "${POLICY_CH2}"
+    --signature-policy "${POLICY_CH2}" \
+    --waitForEventTimeout 120s
+  sleep 3
 done
 
 echo "--- Checking commit readiness on channel2 ---"

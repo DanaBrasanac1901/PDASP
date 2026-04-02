@@ -444,8 +444,7 @@ function createOrderer1() {
 
     infoln "Generating the ${ORDERER} TLS certificates, use --csr.hosts to specify Subject Alternative Names"
     set -x
-    fabric-ca-client enroll -u https://${ORDERER}:${ORDERER}pw@localhost:10054 --caname ca-orderer1 -M "${PWD}/organizations/ordererOrganizations/orderer1.example.com/orderers/${ORDERER}.example.com/tls" --enrollment.profile tls --csr.hosts ${ORDERER}.example.com --csr.hosts localhost --tls.certfiles "${PWD}/organizations/fabric-ca/ordererOrg1/ca-cert.pem"
-    { set +x; } 2>/dev/null
+    fabric-ca-client enroll -u https://${ORDERER}:${ORDERER}pw@localhost:10054 --caname ca-orderer1 -M "${PWD}/organizations/ordererOrganizations/orderer1.example.com/orderers/${ORDERER}.example.com/tls" --enrollment.profile tls --csr.hosts ${ORDERER}.example.com --csr.hosts orderer1.example.com --csr.hosts localhost --tls.certfiles "${PWD}/organizations/fabric-ca/ordererOrg1/ca-cert.pem"
 
     # Copy the tls CA cert, server cert, server keystore to well known file names in the orderer's tls directory that are referenced by orderer startup config
     cp "${PWD}/organizations/ordererOrganizations/orderer1.example.com/orderers/${ORDERER}.example.com/tls/tlscacerts/"* "${PWD}/organizations/ordererOrganizations/orderer1.example.com/orderers/${ORDERER}.example.com/tls/ca.crt"
@@ -525,7 +524,7 @@ function createOrderer2() {
 
     infoln "Generating the ${ORDERER} TLS certificates, use --csr.hosts to specify Subject Alternative Names"
     set -x
-    fabric-ca-client enroll -u https://${ORDERER}:${ORDERER}pw@localhost:11054 --caname ca-orderer2 -M "${PWD}/organizations/ordererOrganizations/orderer2.example.com/orderers/${ORDERER}.example.com/tls" --enrollment.profile tls --csr.hosts ${ORDERER}.example.com --csr.hosts localhost --tls.certfiles "${PWD}/organizations/fabric-ca/ordererOrg2/ca-cert.pem"
+    fabric-ca-client enroll -u https://${ORDERER}:${ORDERER}pw@localhost:11054 --caname ca-orderer2 -M "${PWD}/organizations/ordererOrganizations/orderer2.example.com/orderers/${ORDERER}.example.com/tls" --enrollment.profile tls --csr.hosts ${ORDERER}.example.com --csr.hosts orderer2.example.com --csr.hosts localhost --tls.certfiles "${PWD}/organizations/fabric-ca/ordererOrg2/ca-cert.pem"
     { set +x; } 2>/dev/null
 
     # Copy the tls CA cert, server cert, server keystore to well known file names in the orderer's tls directory that are referenced by orderer startup config

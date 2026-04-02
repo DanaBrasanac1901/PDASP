@@ -475,4 +475,3 @@ func main() {
 		panic(fmt.Sprintf("Error starting chaincode: %v", err))
 	}
 }
-}

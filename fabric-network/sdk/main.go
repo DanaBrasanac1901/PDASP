@@ -132,7 +132,7 @@ func enrollOrLogin(r *bufio.Reader, orgKey string, cfg OrgConfig) string {
 			}
 			fmt.Println("Enrollment failed, please try again.")
 		case "2":
-			username := loginUser(r, orgKey)
+			username := loginUser(r, orgKey, cfg)
 			if username != "" {
 				return username
 			}
@@ -198,12 +198,12 @@ func enrollUser(r *bufio.Reader, orgKey string, cfg OrgConfig) string {
 }
 
 // loginUser checks that the user's wallet entry exists locally and returns the username.
-func loginUser(r *bufio.Reader, orgKey string) string {
+func loginUser(r *bufio.Reader, orgKey string, cfg OrgConfig) string {
 	username := prompt(r, "Username")
 	userWallet := walletDir + "/" + orgKey + "/" + username + "/msp"
 	if _, err := os.Stat(userWallet); os.IsNotExist(err) {
 		fmt.Printf("User '%s' not found in local wallet. Please enroll first.\n", username)
-		return enrollOrLogin(r, orgKey)
+		return enrollOrLogin(r, orgKey, cfg)
 	}
 	fmt.Printf("User '%s' found in wallet.\n", username)
 	return username

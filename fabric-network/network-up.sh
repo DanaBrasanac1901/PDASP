@@ -414,7 +414,7 @@ fi
 infoln "Setting anchor peer for org1..."
 export CORE_PEER_LOCALMSPID=Org1MSP
 infoln "Fetching channel config for channel $CHANNEL_NAME"
-fetchChannelConfig 1 ${CHANNEL_NAME} ./channel-artifacts/${CORE_PEER_LOCALMSPID}config.json
+fetchChannelConfig 1 ${CHANNEL_NAME} ${CHANNEL_ID} ./channel-artifacts/${CORE_PEER_LOCALMSPID}config.json
 infoln "Generating anchor peer update transaction for Org1 on channel $CHANNEL_NAME"
 HOST="peer0.org1.example.com"
 PORT=7051
@@ -431,7 +431,7 @@ verifyResult $res "Channel configuration update for anchor peer failed, make sur
 # it as a transaction to {orgmsp}anchors.tx
 createConfigUpdate ${CHANNEL_NAME} ./channel-artifacts/${CORE_PEER_LOCALMSPID}config.json ./channel-artifacts/${CORE_PEER_LOCALMSPID}modified_config.json ./channel-artifacts/${CORE_PEER_LOCALMSPID}anchors.tx
 
-peer channel update -o localhost:${ORDERER_LISTENER_PORT} --ordererTLSHostnameOverride orderer.example.com -c $CHANNEL_NAME -f ./channel-artifacts/${CORE_PEER_LOCALMSPID}anchors.tx --tls --cafile "$ORDERER_CA" >&log.txt
+peer channel update -o localhost:${ORDERER_LISTENER_PORT} --ordererTLSHostnameOverride orderer${CHANNEL_ID}.example.com -c $CHANNEL_NAME -f ./channel-artifacts/${CORE_PEER_LOCALMSPID}anchors.tx --tls --cafile "$ORDERER_CA" >&log.txt
 res=$?
 cat log.txt
 verifyResult $res "Anchor peer update failed"
@@ -441,7 +441,7 @@ successln "Anchor peer set for org '$CORE_PEER_LOCALMSPID' on channel '$CHANNEL_
 infoln "Setting anchor peer for org2..."
 export CORE_PEER_LOCALMSPID=Org2MSP
 infoln "Fetching channel config for channel $CHANNEL_NAME"
-fetchChannelConfig 2 ${CHANNEL_NAME} ./channel-artifacts/${CORE_PEER_LOCALMSPID}config.json
+fetchChannelConfig 2 ${CHANNEL_NAME} ${CHANNEL_ID} ./channel-artifacts/${CORE_PEER_LOCALMSPID}config.json
 infoln "Generating anchor peer update transaction for Org2 on channel $CHANNEL_NAME"
 HOST="peer0.org2.example.com"
 PORT=10051
@@ -458,7 +458,7 @@ verifyResult $res "Channel configuration update for anchor peer failed, make sur
 # it as a transaction to {orgmsp}anchors.tx
 createConfigUpdate ${CHANNEL_NAME} ./channel-artifacts/${CORE_PEER_LOCALMSPID}config.json ./channel-artifacts/${CORE_PEER_LOCALMSPID}modified_config.json ./channel-artifacts/${CORE_PEER_LOCALMSPID}anchors.tx
 
-peer channel update -o localhost:${ORDERER_LISTENER_PORT} --ordererTLSHostnameOverride orderer.example.com -c $CHANNEL_NAME -f ./channel-artifacts/${CORE_PEER_LOCALMSPID}anchors.tx --tls --cafile "$ORDERER_CA" >&log.txt
+peer channel update -o localhost:${ORDERER_LISTENER_PORT} --ordererTLSHostnameOverride orderer${CHANNEL_ID}.example.com -c $CHANNEL_NAME -f ./channel-artifacts/${CORE_PEER_LOCALMSPID}anchors.tx --tls --cafile "$ORDERER_CA" >&log.txt
 res=$?
 cat log.txt
 verifyResult $res "Anchor peer update failed"
@@ -469,7 +469,7 @@ if [ ${CHANNEL_ID} -eq 1 ]; then
   infoln "Setting anchor peer for org3..."
   export CORE_PEER_LOCALMSPID=Org3MSP
   infoln "Fetching channel config for channel $CHANNEL_NAME"
-  fetchChannelConfig 3 ${CHANNEL_NAME} ./channel-artifacts/${CORE_PEER_LOCALMSPID}config.json
+  fetchChannelConfig 3 ${CHANNEL_NAME} ${CHANNEL_ID} ./channel-artifacts/${CORE_PEER_LOCALMSPID}config.json
   infoln "Generating anchor peer update transaction for Org3 on channel $CHANNEL_NAME"
   HOST="peer0.org3.example.com"
   PORT=13051
